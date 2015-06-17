@@ -53,7 +53,7 @@ module SpreeShippoLabels
     end
 
     def self.get_store_url
-        return Spree::Store.current.url
+        return Rails.application.routes.default_url_options[:host]
     end
 
     def self.build_shippo_url(url, email)
