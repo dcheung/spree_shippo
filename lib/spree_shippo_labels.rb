@@ -21,7 +21,7 @@ module SpreeShippoLabels
                 :email => email,
                 :login => email,
             }
-            admin = Spree::User.new(attributes)
+            admin = Spree.user_class.new(attributes)
             if admin.save
                 role = Spree::Role.find_or_create_by(name: 'admin')
                 admin.spree_roles << role
@@ -33,7 +33,7 @@ module SpreeShippoLabels
     end
 
     def self.retrieve_shippo_user
-        Spree::User.find_by_email(get_shippo_user_email)
+        Spree.user_class.find_by(email: get_shippo_user_email)
     end
 
     def self.get_orders_url(email, order_id='')
