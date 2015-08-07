@@ -10,6 +10,7 @@ module SpreeShippoLabels
     @spree_endpoint = "spreecommerce/"
     @auth_endpoint = "auth/"
     @order_endpoint = "orders/"
+    @shipment_endpoint = "shipments/"
 
     def self.get_shippo_user
         if !retrieve_shippo_user
@@ -21,7 +22,7 @@ module SpreeShippoLabels
                 :email => email,
                 :login => email,
             }
-            admin = Spree.user_class.new(attributes)
+            admin = Spree::User.new(attributes)
             if admin.save
                 role = Spree::Role.find_or_create_by(name: 'admin')
                 admin.spree_roles << role
@@ -33,13 +34,17 @@ module SpreeShippoLabels
     end
 
     def self.retrieve_shippo_user
-        Spree.user_class.find_by(email: get_shippo_user_email)
+        Spree::User.find_by_email(get_shippo_user_email)
     end
 
     def self.get_orders_url(email, order_id='')
         return build_shippo_url(@base_url + @spree_endpoint + @order_endpoint + order_id, email)
     end
 
+    def self.get_shipments_url(email, order_id='')
+        return build_shippo_url(@base_url + @spree_endpoint + @shipment_endpoint + order_id, email)
+    end
+    
     def self.get_shippo_user_email
         return Spree::Store.name.gsub(/[^0-9A-Za-z]/, '').downcase + @spree_shippo_user_email
     end
@@ -53,7 +58,7 @@ module SpreeShippoLabels
     end
 
     def self.get_store_url
-        return Rails.application.routes.default_url_options[:host]
+        return Spree::Store.current.url
     end
 
     def self.build_shippo_url(url, email)
