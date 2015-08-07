@@ -15,8 +15,8 @@ class Spree::Admin::ShippoController < Spree::Admin::BaseController
         redirect_to ( SpreeShippoLabels.get_orders_url(try_spree_current_user.email, params[:id]) )
     end
 
-    def view_orders
-        redirect_to ( SpreeShippoLabels.get_orders_url(try_spree_current_current_user.email) )
+    def view_ship
+        redirect_to ( SpreeShippoLabels.get_shipments_url(try_spree_current_current_user.email) )
     end
 
 end
