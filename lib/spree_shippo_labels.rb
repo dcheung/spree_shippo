@@ -10,6 +10,7 @@ module SpreeShippoLabels
     @spree_endpoint = "spreecommerce/"
     @auth_endpoint = "auth/"
     @order_endpoint = "orders/"
+    @shipment_endpoint = "shipments/"
 
     def self.get_shippo_user
         if !retrieve_shippo_user
@@ -40,6 +41,10 @@ module SpreeShippoLabels
         return build_shippo_url(@base_url + @spree_endpoint + @order_endpoint + order_id, email)
     end
 
+    def self.get_shipments_url(email, order_id='')
+        return build_shippo_url(@base_url + @spree_endpoint + @shipment_endpoint + order_id, email)
+    end
+    
     def self.get_shippo_user_email
         return Spree::Store.name.gsub(/[^0-9A-Za-z]/, '').downcase + @spree_shippo_user_email
     end
